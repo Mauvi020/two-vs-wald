@@ -329,47 +329,56 @@
       align-items: center;
       justify-content: center;
       text-align: center;
-      padding: 14px;
+      padding: 12px;
       font-size: 12px;
       letter-spacing: 1px;
       text-transform: uppercase;
-      min-height: 120px;
       border-radius: var(--radius-sm);
     }
 
     .mini-card {
-      width: 100px;
-      height: 144px;
+      width: 84px;
+      height: 120px;
       flex-shrink: 0;
+      overflow: hidden;
+      border-radius: var(--radius-sm);
+      border: 1px solid var(--line-light);
+      background: var(--panel-card);
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
 
     .mini-card-img {
-      width: 100px;
-      height: 144px;
-      flex-shrink: 0;
-      object-fit: contain;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center;
+      transform: scale(1.24);
       image-rendering: pixelated;
-      background: var(--panel-card);
-      border: 1px solid var(--line-light);
-      border-radius: var(--radius-sm);
-      transition: transform var(--transition), border-color var(--transition);
+      display: block;
+      transition: transform var(--transition);
     }
 
-    .mini-card-img:hover {
-      transform: scale(1.05);
+    .mini-card:hover .mini-card-img {
+      transform: scale(1.30);
+    }
+
+    .mini-card:hover {
       border-color: var(--accent);
     }
 
     .cards {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(185px, 1fr));
-      gap: 18px;
+      grid-template-columns: repeat(auto-fill, minmax(155px, 1fr));
+      gap: 15px;
     }
 
     .card {
       border: 1px solid var(--line-light);
       background: var(--panel-card);
-      padding: 12px;
+      padding: 8px;
       cursor: pointer;
       text-align: left;
       color: var(--text);
@@ -378,37 +387,48 @@
     }
 
     .card:hover {
-      transform: translateY(-4px);
+      transform: translateY(-3px);
       border-color: var(--accent);
     }
 
     .card-art {
+      width: 100%;
       aspect-ratio: 3/4;
-      min-height: 170px;
+      overflow: hidden;
+      border-radius: 2px;
+      background: #080d13;
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
 
     .card-artwork {
       width: 100%;
       height: 100%;
-      aspect-ratio: 3/4;
-      object-fit: contain;
+      object-fit: cover;
+      object-position: center;
+      transform: scale(1.24);
       image-rendering: pixelated;
-      background: #080d13;
       display: block;
-      border-radius: 2px;
+      transition: transform var(--transition);
+    }
+
+    .card:hover .card-artwork {
+      transform: scale(1.30);
     }
 
     .card-name {
       font-family: var(--font-mono);
       font-weight: 800;
       letter-spacing: 1px;
-      font-size: 13px;
-      margin-top: 12px;
+      font-size: 12px;
+      margin-top: 8px;
     }
 
     .value {
       color: #aab8c9;
-      font-size: 13px;
+      font-size: 12px;
     }
 
     /* ==========================================================================
@@ -649,25 +669,36 @@
     }
 
     .modal-box {
-      width: min(520px, 100%);
+      width: min(440px, 100%);
       background: #0c131b;
       border: 1px solid #596575;
-      padding: 28px;
+      padding: 24px;
       text-align: center;
       position: relative;
       border-radius: var(--radius-sm);
     }
 
-    .modal-art-img {
-      width: min(340px, 100%);
-      margin: 0 auto 18px;
+    .modal-art-box {
+      width: min(290px, 100%);
       aspect-ratio: 3/4;
-      object-fit: contain;
+      margin: 0 auto 16px;
+      overflow: hidden;
+      border-radius: var(--radius-sm);
+      border: 1px solid var(--line-light);
+      background: var(--panel-card);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .modal-art-img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center;
+      transform: scale(1.24);
       image-rendering: pixelated;
       display: block;
-      background: var(--panel-card);
-      border: 1px solid var(--line-light);
-      border-radius: var(--radius-sm);
     }
 
     .close {
