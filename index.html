@@ -1,100 +1,1181 @@
 <!doctype html>
 <html lang="de">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Two vs. Wald — SNEPI</title>
-<link rel="icon" type="image/png" href="logo.png">
-<style>
-:root{--bg:#090d12;--panel:#0e141c;--line:#293340;--text:#e2e8f0;--muted:#98a6b8;--accent:#a7b5c7}
-*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:var(--bg);color:var(--text);font:15px/1.65 system-ui,-apple-system,Segoe UI,sans-serif;background-image:radial-gradient(ellipse at 72% 12%,#18212c 0,transparent 38%)}
-a{color:inherit;text-decoration:none}.wrap{width:min(1100px,calc(100% - 40px));margin:auto}
-header{position:sticky;top:0;z-index:5;background:#090d12ed;border-bottom:1px solid var(--line);backdrop-filter:blur(12px)}
-nav{height:64px;display:flex;align-items:center;gap:28px}.brand{font-weight:950;letter-spacing:3px;font-size:23px;margin-right:auto;display:inline-flex;align-items:center;gap:10px}.brand-logo{height:28px;width:auto;object-fit:contain;image-rendering:pixelated}nav a:not(.brand){color:#b7c1d0;font-size:14px}nav a:hover{color:#fff}
-.hero{min-height:390px;display:grid;grid-template-columns:1fr 1fr;align-items:center;gap:30px;border-bottom:1px solid var(--line);position:relative;overflow:hidden}
-.kicker{color:var(--muted);text-transform:uppercase;letter-spacing:2px;font-size:12px}.hero h1{font-size:clamp(48px,7vw,82px);line-height:.96;margin:18px 0 12px;letter-spacing:-3px;font-weight:1000}.hero h1 span{color:#a7b5c7}.sub{color:var(--muted);max-width:440px}.actions{display:flex;gap:12px;flex-wrap:wrap;margin-top:24px}.btn{display:inline-flex;align-items:center;justify-content:center;gap:9px;border:1px solid #667487;padding:10px 16px;border-radius:3px;font-weight:650;background:transparent;color:var(--text);cursor:pointer}.btn.primary{background:#dce3eb;color:#10151b;border-color:#dce3eb}.btn:hover{filter:brightness(1.08)}
-.art-slot{background:#0b1118;border:1px dashed #465363;color:#718095;display:flex;align-items:center;justify-content:center;text-align:center;padding:14px;font-size:12px;letter-spacing:1px;text-transform:uppercase;min-height:120px}.hero-art{height:280px;min-height:0;font-size:13px;display:flex;align-items:center;justify-content:center}.hero-artwork{display:block;width:100%;height:100%;object-fit:contain;object-position:center;image-rendering:pixelated}.mini-card-img{width:78px;height:112px;flex-shrink:0;object-fit:contain;image-rendering:pixelated;background:#0b1118;border:1px solid #3b4654;border-radius:3px;transition:transform .15s,border-color .15s}.mini-card-img:hover{transform:scale(1.05);border-color:#a7b5c7}.card-artwork{width:100%;height:100%;aspect-ratio:3/4;object-fit:contain;image-rendering:pixelated;background:#080d13;display:block;border-radius:2px}.modal-art-img{width:min(260px,100%);margin:0 auto 15px;aspect-ratio:3/4;object-fit:contain;image-rendering:pixelated;display:block;background:#0b1118;border:1px solid #3b4654}
-section{padding:38px 0;border-bottom:1px solid var(--line)}.section-head{display:flex;justify-content:space-between;align-items:end;gap:20px;margin-bottom:22px}.section-head h2{font-size:24px;margin:2px 0;font-weight:850}.section-head p{margin:0;color:var(--muted)}.overview{display:grid;grid-template-columns:1.2fr 1fr;gap:55px}.overview h3{font-size:27px;margin:5px 0 10px}.overview p{color:var(--muted);max-width:620px}.facts{border-left:1px solid var(--line);padding-left:28px;display:grid;gap:15px}.fact b{display:block}.fact span{color:var(--muted);font-size:14px}
-.rules{display:grid;grid-template-columns:1.2fr .8fr;gap:38px}.steps{list-style:none;padding:0;margin:0;display:grid;gap:12px}.steps li{display:grid;grid-template-columns:28px 1fr;gap:12px;color:#b9c4d2}.num{height:24px;width:24px;display:grid;place-items:center;background:#303b49;color:#fff;font-weight:800;border-radius:3px;font-size:12px}.special{border-left:1px solid var(--line);padding-left:30px;display:grid;gap:16px}.special-row{display:flex;gap:18px;align-items:center}.mini-card{width:78px;height:112px;flex-shrink:0}.special-row p{margin:2px 0;color:var(--muted);font-size:13px}.special-row b{font-family:monospace;font-size:16px}
-.cards{display:grid;grid-template-columns:repeat(6,1fr);gap:14px}.card{border:1px solid #3b4654;background:#0b1118;padding:8px;cursor:pointer;text-align:left;color:var(--text);transition:.18s}.card:hover{transform:translateY(-3px);border-color:#a7b5c7}.card-art{aspect-ratio:3/4;min-height:130px}.card-name{font-family:monospace;font-weight:800;letter-spacing:1px;font-size:12px;margin-top:10px}.value{color:#aab8c9;font-size:12px}.downloads{display:grid;grid-template-columns:1fr 1fr;gap:15px}.download{border:1px solid var(--line);padding:22px;display:flex;align-items:center;gap:16px;background:#0b1118}.download .slot-icon{width:36px;height:44px;border:1px dashed #566274;flex-shrink:0}.download p{margin:0;color:var(--muted);font-size:13px}.download h3{margin:0 0 3px;font-size:17px}.download .btn{margin-left:auto;white-space:nowrap}
-.download.download-mc{background:linear-gradient(165deg,#101723 0%,#0b1118 100%);border:1px solid #36485d;position:relative;align-items:flex-start;gap:18px;transition:border-color .2s,transform .2s,box-shadow .2s}
-.download.download-mc::before{content:"";position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,#4ade80 0%,#38bdf8 65%,transparent 100%)}
-.download.download-mc:hover{border-color:#516b8a;transform:translateY(-2px);box-shadow:0 8px 24px rgba(0,0,0,.35),0 0 16px rgba(74,222,128,.08)}
-.mc-icon-wrap{width:50px;height:50px;flex-shrink:0;display:grid;place-items:center;background:radial-gradient(circle at 50% 50%,rgba(74,222,128,.14),transparent 70%);border-radius:6px}
-.mc-icon-wrap svg{filter:drop-shadow(0 4px 6px rgba(0,0,0,.5));transition:transform .2s ease}
-.download.download-mc:hover .mc-icon-wrap svg{transform:translateY(-2px) scale(1.05)}
-.mc-content{flex:1;min-width:0}
-.mc-badge{display:inline-flex;align-items:center;gap:6px;font-size:11px;font-weight:750;letter-spacing:.8px;text-transform:uppercase;color:#4ade80;background:rgba(74,222,128,.1);border:1px solid rgba(74,222,128,.25);padding:2px 7px;border-radius:3px;margin-bottom:6px}
-.mc-pulse{position:relative;width:8px;height:8px;display:inline-flex;align-items:center;justify-content:center}
-.mc-dot{width:6px;height:6px;border-radius:50%;background:#4ade80}
-.mc-ping{position:absolute;width:100%;height:100%;border-radius:50%;background:#4ade80;animation:mc-ping 1.8s cubic-bezier(0,0,.2,1) infinite;opacity:.75}
-@keyframes mc-ping{75%,100%{transform:scale(2.2);opacity:0}}
-.download.download-mc h3{font-size:18px;margin:0 0 4px;font-weight:800}
-.download.download-mc p{margin:0 0 12px;color:var(--muted);font-size:13px;line-height:1.45}
-.mc-actions{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
-.mc-actions .btn{margin-left:0;padding:7px 14px;font-size:13px}
-.mc-ip-copy{display:inline-flex;align-items:center;gap:8px;background:#060a0f;border:1px solid #2a3747;padding:6px 10px;border-radius:3px;color:#e2e8f0;font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,monospace;font-size:13px;font-weight:600;cursor:pointer;transition:all .15s ease}
-.mc-ip-copy:hover{border-color:#4ade80;background:#0a131c}
-.mc-ip-copy:active{transform:scale(.98)}
-.mc-ip-tag{display:inline-flex;align-items:center;gap:4px;background:#172230;color:#94a3b8;font-family:system-ui,-apple-system,sans-serif;font-size:11px;padding:2px 6px;border-radius:2px;transition:all .15s ease}
-.mc-ip-copy:hover .mc-ip-tag{background:#1f3044;color:#cbd5e1}
-.mc-ip-copy.copied{border-color:#4ade80}
-.mc-ip-copy.copied .mc-ip-tag{background:rgba(74,222,128,.15);color:#4ade80}
-footer{padding:25px 0;color:var(--muted);font-size:13px;display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap}.modal{display:none;position:fixed;inset:0;z-index:20;background:#020508ed;align-items:center;justify-content:center;padding:20px}.modal.open{display:flex}.modal-box{width:min(420px,100%);background:#0c131b;border:1px solid #596575;padding:20px;text-align:center;position:relative}.modal-box .card-art{width:min(260px,100%);margin:0 auto 15px;aspect-ratio:3/4}.close{position:absolute;right:12px;top:8px;background:none;border:0;color:white;font-size:25px;cursor:pointer}
-@media(max-width:760px){nav{gap:14px}nav a:not(.brand){display:none}.hero{grid-template-columns:1fr;padding:42px 0 0;gap:0}.hero-art{height:150px}.hero-artwork{width:100%;height:100%;object-fit:contain}.overview,.rules{grid-template-columns:1fr;gap:25px}.facts,.special{border-left:0;padding-left:0;border-top:1px solid var(--line);padding-top:20px}.cards{grid-template-columns:repeat(3,1fr)}.downloads{grid-template-columns:1fr}.section-head{align-items:start;flex-direction:column}.download{flex-wrap:wrap}.download .btn{margin-left:0}.wrap{width:min(100% - 28px,1100px)}}
-</style>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Two vs. Wald — SNEPI</title>
+  <link rel="icon" type="image/png" href="logo.png">
+
+  <style>
+    /* ==========================================================================
+       1. DESIGN TOKENS & VARIABLEN (Zentral anpassbar)
+       ========================================================================== */
+    :root {
+      /* Farben & Hintergründe */
+      --bg: #090d12;
+      --panel: #0e141c;
+      --panel-card: #0b1118;
+      --line: #293340;
+      --line-light: #3b4654;
+      --text: #e2e8f0;
+      --muted: #98a6b8;
+      --accent: #a7b5c7;
+
+      /* Minecraft & Akzentfarben */
+      --mc-green: #4ade80;
+      --mc-green-glow: rgba(74, 222, 128, 0.15);
+      --mc-blue: #38bdf8;
+
+      /* Typografie & Maße */
+      --font-sans: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+      --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+      --wrap-max: 1100px;
+      --radius-sm: 3px;
+      --radius-md: 6px;
+      --transition: 0.18s ease;
+    }
+
+    /* ==========================================================================
+       2. BASIS-LAYOUT & RESET
+       ========================================================================== */
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--text);
+      font: 15px/1.65 var(--font-sans);
+      background-image: radial-gradient(ellipse at 72% 12%, #18212c 0%, transparent 38%);
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    .wrap {
+      width: min(var(--wrap-max), calc(100% - 40px));
+      margin: 0 auto;
+    }
+
+    /* ==========================================================================
+       3. NAVIGATION & HEADER
+       ========================================================================== */
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      background: rgba(9, 13, 18, 0.93);
+      border-bottom: 1px solid var(--line);
+      backdrop-filter: blur(12px);
+    }
+
+    nav {
+      height: 64px;
+      display: flex;
+      align-items: center;
+      gap: 28px;
+    }
+
+    .brand {
+      font-weight: 950;
+      letter-spacing: 3px;
+      font-size: 23px;
+      margin-right: auto;
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .brand-logo {
+      height: 28px;
+      width: auto;
+      object-fit: contain;
+      image-rendering: pixelated;
+    }
+
+    nav a:not(.brand) {
+      color: #b7c1d0;
+      font-size: 14px;
+      transition: color var(--transition);
+    }
+
+    nav a:hover {
+      color: #fff;
+    }
+
+    /* ==========================================================================
+       4. HERO-BEREICH
+       ========================================================================== */
+    .hero {
+      min-height: 390px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      align-items: center;
+      gap: 30px;
+      border-bottom: 1px solid var(--line);
+      position: relative;
+      overflow: hidden;
+      padding: 40px 0;
+    }
+
+    .kicker {
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      font-size: 12px;
+    }
+
+    .hero h1 {
+      font-size: clamp(48px, 7vw, 82px);
+      line-height: 0.96;
+      margin: 18px 0 12px;
+      letter-spacing: -3px;
+      font-weight: 1000;
+    }
+
+    .hero h1 span {
+      color: var(--accent);
+    }
+
+    .sub {
+      color: var(--muted);
+      max-width: 440px;
+      margin: 0;
+    }
+
+    .actions {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-top: 24px;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 9px;
+      border: 1px solid #667487;
+      padding: 10px 16px;
+      border-radius: var(--radius-sm);
+      font-weight: 650;
+      background: transparent;
+      color: var(--text);
+      cursor: pointer;
+      transition: filter var(--transition), border-color var(--transition);
+    }
+
+    .btn.primary {
+      background: #dce3eb;
+      color: #10151b;
+      border-color: #dce3eb;
+    }
+
+    .btn:hover {
+      filter: brightness(1.08);
+    }
+
+    .hero-art {
+      height: 280px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .hero-artwork {
+      display: block;
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      object-position: center;
+      image-rendering: pixelated;
+    }
+
+    /* ==========================================================================
+       5. ABSCHNITTE & TYPOGRAFIE
+       ========================================================================== */
+    section {
+      padding: 45px 0;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .section-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      gap: 20px;
+      margin-bottom: 24px;
+    }
+
+    .section-head h2 {
+      font-size: 24px;
+      margin: 4px 0 2px;
+      font-weight: 850;
+    }
+
+    .section-head p {
+      margin: 0;
+      color: var(--muted);
+    }
+
+    /* ==========================================================================
+       6. SPIEL-ÜBERSICHT & REGELN
+       ========================================================================== */
+    .overview {
+      display: grid;
+      grid-template-columns: 1.2fr 1fr;
+      gap: 55px;
+    }
+
+    .overview h3 {
+      font-size: 27px;
+      margin: 5px 0 10px;
+    }
+
+    .overview p {
+      color: var(--muted);
+      max-width: 620px;
+      margin: 0;
+    }
+
+    .facts {
+      border-left: 1px solid var(--line);
+      padding-left: 28px;
+      display: grid;
+      gap: 15px;
+    }
+
+    .fact b {
+      display: block;
+    }
+
+    .fact span {
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .rules {
+      display: grid;
+      grid-template-columns: 1.2fr 0.8fr;
+      gap: 38px;
+    }
+
+    .steps {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      display: grid;
+      gap: 12px;
+    }
+
+    .steps li {
+      display: grid;
+      grid-template-columns: 28px 1fr;
+      gap: 12px;
+      color: #b9c4d2;
+    }
+
+    .num {
+      height: 24px;
+      width: 24px;
+      display: grid;
+      place-items: center;
+      background: #303b49;
+      color: #fff;
+      font-weight: 800;
+      border-radius: var(--radius-sm);
+      font-size: 12px;
+    }
+
+    .special {
+      border-left: 1px solid var(--line);
+      padding-left: 30px;
+      display: grid;
+      gap: 16px;
+    }
+
+    .special-row {
+      display: flex;
+      gap: 18px;
+      align-items: center;
+    }
+
+    .special-row p {
+      margin: 2px 0 0;
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .special-row b {
+      font-family: var(--font-mono);
+      font-size: 16px;
+    }
+
+    /* ==========================================================================
+       7. KARTEN & GALERIE
+       ========================================================================== */
+    .art-slot {
+      background: var(--panel-card);
+      border: 1px dashed #465363;
+      color: #718095;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 14px;
+      font-size: 12px;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      min-height: 120px;
+      border-radius: var(--radius-sm);
+    }
+
+    .mini-card {
+      width: 78px;
+      height: 112px;
+      flex-shrink: 0;
+    }
+
+    .mini-card-img {
+      width: 78px;
+      height: 112px;
+      flex-shrink: 0;
+      object-fit: contain;
+      image-rendering: pixelated;
+      background: var(--panel-card);
+      border: 1px solid var(--line-light);
+      border-radius: var(--radius-sm);
+      transition: transform var(--transition), border-color var(--transition);
+    }
+
+    .mini-card-img:hover {
+      transform: scale(1.05);
+      border-color: var(--accent);
+    }
+
+    .cards {
+      display: grid;
+      grid-template-columns: repeat(6, 1fr);
+      gap: 14px;
+    }
+
+    .card {
+      border: 1px solid var(--line-light);
+      background: var(--panel-card);
+      padding: 8px;
+      cursor: pointer;
+      text-align: left;
+      color: var(--text);
+      border-radius: var(--radius-sm);
+      transition: transform var(--transition), border-color var(--transition);
+    }
+
+    .card:hover {
+      transform: translateY(-3px);
+      border-color: var(--accent);
+    }
+
+    .card-art {
+      aspect-ratio: 3/4;
+      min-height: 130px;
+    }
+
+    .card-artwork {
+      width: 100%;
+      height: 100%;
+      aspect-ratio: 3/4;
+      object-fit: contain;
+      image-rendering: pixelated;
+      background: #080d13;
+      display: block;
+      border-radius: 2px;
+    }
+
+    .card-name {
+      font-family: var(--font-mono);
+      font-weight: 800;
+      letter-spacing: 1px;
+      font-size: 12px;
+      margin-top: 10px;
+    }
+
+    .value {
+      color: #aab8c9;
+      font-size: 12px;
+    }
+
+    /* ==========================================================================
+       8. DOWNLOADS & MINECRAFT SERVER
+       ========================================================================== */
+    .downloads {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 15px;
+    }
+
+    .download {
+      border: 1px solid var(--line);
+      padding: 22px;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      background: var(--panel-card);
+      border-radius: var(--radius-sm);
+    }
+
+    .download .slot-icon {
+      width: 36px;
+      height: 44px;
+      border: 1px dashed #566274;
+      flex-shrink: 0;
+    }
+
+    .download p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .download h3 {
+      margin: 0 0 3px;
+      font-size: 17px;
+    }
+
+    .download .btn {
+      margin-left: auto;
+      white-space: nowrap;
+    }
+
+    /* Minecraft Server Card Highlight */
+    .download.download-mc {
+      background: linear-gradient(165deg, #101723 0%, var(--panel-card) 100%);
+      border: 1px solid #36485d;
+      position: relative;
+      align-items: flex-start;
+      gap: 18px;
+      transition: border-color 0.2s, transform 0.2s, box-shadow 0.2s;
+    }
+
+    .download.download-mc::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 2px;
+      background: linear-gradient(90deg, var(--mc-green) 0%, var(--mc-blue) 65%, transparent 100%);
+    }
+
+    .download.download-mc:hover {
+      border-color: #516b8a;
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35), 0 0 16px rgba(74, 222, 128, 0.08);
+    }
+
+    .mc-icon-wrap {
+      width: 50px;
+      height: 50px;
+      flex-shrink: 0;
+      display: grid;
+      place-items: center;
+      background: radial-gradient(circle at 50% 50%, rgba(74, 222, 128, 0.14), transparent 70%);
+      border-radius: var(--radius-md);
+    }
+
+    .mc-icon-wrap svg {
+      filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.5));
+      transition: transform 0.2s ease;
+    }
+
+    .download.download-mc:hover .mc-icon-wrap svg {
+      transform: translateY(-2px) scale(1.05);
+    }
+
+    .mc-content {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .mc-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 11px;
+      font-weight: 750;
+      letter-spacing: 0.8px;
+      text-transform: uppercase;
+      color: var(--mc-green);
+      background: rgba(74, 222, 128, 0.1);
+      border: 1px solid rgba(74, 222, 128, 0.25);
+      padding: 2px 7px;
+      border-radius: var(--radius-sm);
+      margin-bottom: 6px;
+    }
+
+    .mc-pulse {
+      position: relative;
+      width: 8px;
+      height: 8px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .mc-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--mc-green);
+    }
+
+    .mc-ping {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+      background: var(--mc-green);
+      animation: mc-ping 1.8s cubic-bezier(0, 0, 0.2, 1) infinite;
+      opacity: 0.75;
+    }
+
+    @keyframes mc-ping {
+      75%, 100% {
+        transform: scale(2.2);
+        opacity: 0;
+      }
+    }
+
+    .download.download-mc h3 {
+      font-size: 18px;
+      margin: 0 0 4px;
+      font-weight: 800;
+    }
+
+    .download.download-mc p {
+      margin: 0 0 12px;
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.45;
+    }
+
+    .mc-actions {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+
+    .mc-actions .btn {
+      margin-left: 0;
+      padding: 7px 14px;
+      font-size: 13px;
+    }
+
+    .mc-ip-copy {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: #060a0f;
+      border: 1px solid #2a3747;
+      padding: 6px 10px;
+      border-radius: var(--radius-sm);
+      color: var(--text);
+      font-family: var(--font-mono);
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: border-color var(--transition), background var(--transition);
+    }
+
+    .mc-ip-copy:hover {
+      border-color: var(--mc-green);
+      background: #0a131c;
+    }
+
+    .mc-ip-copy:active {
+      transform: scale(0.98);
+    }
+
+    .mc-ip-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      background: #172230;
+      color: #94a3b8;
+      font-family: var(--font-sans);
+      font-size: 11px;
+      padding: 2px 6px;
+      border-radius: 2px;
+      transition: all var(--transition);
+    }
+
+    .mc-ip-copy:hover .mc-ip-tag {
+      background: #1f3044;
+      color: #cbd5e1;
+    }
+
+    .mc-ip-copy.copied {
+      border-color: var(--mc-green);
+    }
+
+    .mc-ip-copy.copied .mc-ip-tag {
+      background: var(--mc-green-glow);
+      color: var(--mc-green);
+    }
+
+    /* ==========================================================================
+       9. MODAL & FOOTER
+       ========================================================================== */
+    .modal {
+      display: none;
+      position: fixed;
+      inset: 0;
+      z-index: 100;
+      background: rgba(2, 5, 8, 0.93);
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+
+    .modal.open {
+      display: flex;
+    }
+
+    .modal-box {
+      width: min(420px, 100%);
+      background: #0c131b;
+      border: 1px solid #596575;
+      padding: 24px;
+      text-align: center;
+      position: relative;
+      border-radius: var(--radius-sm);
+    }
+
+    .modal-art-img {
+      width: min(260px, 100%);
+      margin: 0 auto 15px;
+      aspect-ratio: 3/4;
+      object-fit: contain;
+      image-rendering: pixelated;
+      display: block;
+      background: var(--panel-card);
+      border: 1px solid var(--line-light);
+      border-radius: var(--radius-sm);
+    }
+
+    .close {
+      position: absolute;
+      right: 14px;
+      top: 10px;
+      background: none;
+      border: 0;
+      color: #fff;
+      font-size: 26px;
+      cursor: pointer;
+      line-height: 1;
+      padding: 4px 8px;
+    }
+
+    footer {
+      padding: 28px 0;
+      color: var(--muted);
+      font-size: 13px;
+      display: flex;
+      justify-content: space-between;
+      gap: 20px;
+      flex-wrap: wrap;
+    }
+
+    /* ==========================================================================
+       10. RESPONSIVE MEDIA QUERIES
+       ========================================================================== */
+    @media (max-width: 760px) {
+      nav {
+        gap: 14px;
+      }
+
+      nav a:not(.brand) {
+        display: none;
+      }
+
+      .hero {
+        grid-template-columns: 1fr;
+        padding: 30px 0;
+        gap: 20px;
+      }
+
+      .hero-art {
+        height: 160px;
+      }
+
+      .overview,
+      .rules {
+        grid-template-columns: 1fr;
+        gap: 25px;
+      }
+
+      .facts,
+      .special {
+        border-left: 0;
+        padding-left: 0;
+        border-top: 1px solid var(--line);
+        padding-top: 20px;
+      }
+
+      .cards {
+        grid-template-columns: repeat(3, 1fr);
+      }
+
+      .downloads {
+        grid-template-columns: 1fr;
+      }
+
+      .section-head {
+        align-items: flex-start;
+        flex-direction: column;
+      }
+
+      .download {
+        flex-wrap: wrap;
+      }
+
+      .download .btn {
+        margin-left: 0;
+      }
+
+      .wrap {
+        width: min(100% - 28px, var(--wrap-max));
+      }
+    }
+  </style>
 </head>
+
 <body>
-<header><nav class="wrap"><a class="brand" href="#top"><img class="brand-logo" src="logo.png" alt="Two vs. Wald Logo">SNEPI</a><a href="#top">Start</a><a href="#spiel">Spiel</a><a href="#karten">Karten</a><a href="#download">Server &amp; Download</a><a href="https://snepi.de" target="_blank" rel="noreferrer">snepi.de ↗</a></nav></header>
-<main id="top">
-<div class="wrap hero"><div><div class="kicker">Ein Spiel von SNEPI</div><h1>TWO <small style="font-size:.45em">VS.</small><br><span>WALD</span></h1><p class="sub">Ein Lagerfeuer. Zwei Teams. Ein Wald.<br>Und du weißt nicht, wer noch da ist …</p><div class="actions"><a class="btn primary" href="#spiel">Spiel entdecken</a><a class="btn" href="#karten">Karten ansehen</a></div></div><div class="hero-art"><img class="hero-artwork" src="logo.png" alt="Two vs. Wald Logo"></div></div>
-<section id="spiel"><div class="wrap overview"><div><div class="kicker">Das Spiel</div><h3>Zwei Teams. Ein Ziel.</h3><p>Dein Zug nach Hause wurde durch einen mysteriösen Angriff aufgehalten. Alle wurden zurück in die Stadt evakuiert – du und deine Freunde habt euch aber im Wald verirrt. Ihr schlagt ein Lagerfeuer auf und merkt anhand gruseliger Geräusche: Ihr seid nicht allein.</p></div><div class="facts"><div class="fact"><b>Spieler</b><span>4 Personen, aufgeteilt in zwei Teams: Verlorene & Schatten</span></div><div class="fact"><b>Materialien</b><span>Spielkarten (2 Decks), optional Würfel</span></div><div class="fact"><b>Spielstil</b><span>Strategie, Glück, Teamplay und Survival</span></div></div></div></section>
-<section><div class="wrap"><div class="section-head"><div><div class="kicker">So funktioniert’s</div><h2>Spielanleitung</h2></div></div><div class="rules"><ol class="steps"><li><span class="num">1</span><span>Vor dem Spiel wird gewürfelt. Das Team mit der höchsten Gesamtsumme beginnt. Im Team startet die Person mit dem höchsten Wurf.</span></li><li><span class="num">2</span><span>Die Teams wechseln sich nach jedem Zug ab – innerhalb des Teams wechseln auch die Spieler.</span></li><li><span class="num">3</span><span>Zu Beginn eines Zuges zieht der aktive Spieler eine Karte und legt sie auf das Lagerfeuer. Erst dann ist der Zug beendet.</span></li><li><span class="num">4</span><span>Wird eine Spezialkarte gezogen, muss sie gelegt werden.</span></li><li><span class="num">5</span><span>Der Punktestand des Lagerfeuers startet bei <b>25</b>.</span></li><li><span class="num">6</span><span><b>Verlorene</b> gewinnen bei 50 Punkten. <b>Schatten</b> gewinnen, wenn der Stand auf 0 fällt.</span></li></ol><div class="special"><div class="special-row"><img class="mini-card mini-card-img" src="stock.png" alt="Stock Karte" onclick="openModal(0)" style="cursor:pointer" title="Karte [Stock] ansehen"><div><b>[Stock]</b><p>Fügt x Punkte zum Lagerfeuer hinzu.</p></div></div><div class="special-row"><div class="art-slot mini-card">Artwork</div><div><b>[Wind]</b><p>Zieht x Punkte vom Lagerfeuer ab.</p></div></div></div></div></div></section>
-<section id="karten"><div class="wrap"><div class="section-head"><div><div class="kicker">Kartengalerie</div><h2>Die Karten</h2><p>Hier könnt ihr eure eigenen Karten-Artworks einsetzen.</p></div></div><div class="cards" id="cardGrid"></div></div></section>
-<section id="download"><div class="wrap"><div class="section-head"><div><div class="kicker">Mitnehmen in den Wald</div><h2>Server &amp; Downloads</h2><p>Verbinde dich mit der Community oder lade Spielmaterialien herunter.</p></div></div><div class="downloads"><div class="download download-mc"><div class="mc-icon-wrap" aria-hidden="true"><svg viewBox="0 0 48 48" width="46" height="46" fill="none" xmlns="http://www.w3.org/2000/svg"><polygon points="24,5 43,15 24,25 5,15" fill="#58a833"/><polygon points="24,5 33,10 24,15 15,10" fill="#65bd3b" opacity="0.6"/><polygon points="5,15 24,25 24,43 5,33" fill="#543722"/><rect x="10" y="27" width="2" height="2" fill="#3c2617" opacity="0.7"/><rect x="17" y="32" width="2.5" height="2" fill="#714b30" opacity="0.8"/><rect x="8" y="22" width="2" height="2" fill="#714b30" opacity="0.6"/><polygon points="5,15 24,25 24,30 20,28 20,25 15,26 15,29 10,26 10,23 5,20" fill="#437f26"/><polygon points="24,25 43,15 43,33 24,43" fill="#6d472c"/><rect x="29" y="32" width="2.5" height="2" fill="#4c311e" opacity="0.7"/><rect x="36" y="26" width="2" height="2" fill="#8c5c38" opacity="0.8"/><polygon points="24,25 43,15 43,20 38,22 38,25 33,23 33,21 28,24 28,29 24,30" fill="#51942d"/></svg></div><div class="mc-content"><span class="mc-badge"><span class="mc-pulse"><span class="mc-ping"></span><span class="mc-dot"></span></span>Online Server</span><h3>Minecraft Server</h3><p>Tritt unserem Community-Server bei &amp; überlebe im Wald!</p><div class="mc-actions"><button class="mc-ip-copy" onclick="copyMcIP(this)" type="button" title="Server-IP in die Zwischenablage kopieren"><span>mc.snepi.de</span><span class="mc-ip-tag" id="mcCopyTag"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg><span>Kopieren</span></span></button><a class="btn primary mc-btn" href="https://laby.net/de/servers/mc.snepi.de" target="_blank" rel="noreferrer">Server Info ↗</a></div></div></div><div class="download"><div class="slot-icon" style="display:grid;place-items:center;background:#080e14;border:1px solid #232d3b;border-radius:3px;"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#68778d" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line></svg></div><div><h3>Karten zum Ausdrucken</h3><p>Platzhalter für euer Karten-PDF.</p></div><span class="btn" style="opacity:.55;cursor:default">Bald verfügbar</span></div></div></div></section>
-</main>
-<footer class="wrap"><span><b style="color:#e2e8f0;letter-spacing:2px">SNEPI</b> &nbsp; Spiele. Plugins. Ideen.</span><span><a href="https://snepi.de">snepi.de ↗</a> &nbsp; · &nbsp; Two vs. Wald</span></footer>
-<div class="modal" id="modal" role="dialog" aria-modal="true" aria-label="Kartenansicht"><div class="modal-box"><button class="close" aria-label="Schließen" onclick="closeModal()">×</button><div id="modalArt"><div class="art-slot card-art">Platzhalter für Karten-Artwork</div></div><h3 id="modalTitle">Karte</h3><p id="modalInfo" style="color:var(--muted)">Kartendetails</p><button class="btn" onclick="closeModal()">Schließen</button></div></div>
-<script>
-const cards=[
-{name:'STOCK',title:'Stock',value:'+x',info:'Fügt x Punkte zum Lagerfeuer hinzu.',image:'stock.png'},
-{name:'WIND',title:'Wind',value:'−x',info:'Zieht x Punkte vom Lagerfeuer ab.'},
-{name:'KARTE 03',title:'Weitere Karte',value:'—',info:'Platzhalter für Kartentext.'},
-{name:'KARTE 04',title:'Weitere Karte',value:'—',info:'Platzhalter für Kartentext.'},
-{name:'KARTE 05',title:'Weitere Karte',value:'—',info:'Platzhalter für Kartentext.'},
-{name:'KARTE 06',title:'Weitere Karte',value:'—',info:'Platzhalter für Kartentext.'}
-];
-const grid=document.getElementById('cardGrid');
-cards.forEach((c,i)=>{const el=document.createElement('button');el.className='card';el.setAttribute('aria-label','Karte '+c.title+' ansehen');const artHtml=c.image?`<img class="card-art card-artwork" src="${c.image}" alt="${c.title}">`:`<div class="art-slot card-art">Artwork ${String(i+1).padStart(2,'0')}</div>`;el.innerHTML=`${artHtml}<div class="card-name">${c.name}</div><div class="value">${c.value}</div>`;el.onclick=()=>openModal(i);grid.appendChild(el)});
-function openModal(i){const c=cards[i];document.getElementById('modalTitle').textContent=c.title;document.getElementById('modalInfo').textContent=c.info;const art=document.getElementById('modalArt');if(c.image){art.innerHTML=`<img class="modal-art-img" src="${c.image}" alt="${c.title}">`}else{art.innerHTML=`<div class="art-slot card-art" style="width:min(260px,100%);margin:0 auto 15px;aspect-ratio:3/4">Artwork ${String(i+1).padStart(2,'0')}</div>`}document.getElementById('modal').classList.add('open')}
-function closeModal(){document.getElementById('modal').classList.remove('open')}
-document.getElementById('modal').addEventListener('click',e=>{if(e.target.id==='modal')closeModal()});
-document.addEventListener('keydown',e=>{if(e.key==='Escape')closeModal()});
-function copyMcIP(btn){
-  const ip='mc.snepi.de';
-  const finish=()=>{
-    const tag=btn.querySelector('#mcCopyTag');
-    if(!tag)return;
-    const old=tag.innerHTML;
-    tag.innerHTML='<span style="color:#4ade80;font-weight:700">✓ Kopiert!</span>';
-    btn.classList.add('copied');
-    setTimeout(()=>{tag.innerHTML=old;btn.classList.remove('copied')},2200);
-  };
-  if(navigator.clipboard&&navigator.clipboard.writeText){
-    navigator.clipboard.writeText(ip).then(finish).catch(()=>{copyFallback(ip);finish()});
-  }else{
-    copyFallback(ip);finish();
-  }
-}
-function copyFallback(text){
-  const t=document.createElement('textarea');
-  t.value=text;
-  t.style.position='fixed';
-  t.style.opacity='0';
-  document.body.appendChild(t);
-  t.select();
-  try{document.execCommand('copy')}catch(e){}
-  document.body.removeChild(t);
-}
-</script>
-</body></html>
+  <!-- ================= HEADER & NAVIGATION ================= -->
+  <header>
+    <nav class="wrap">
+      <a class="brand" href="#top">
+        <img class="brand-logo" src="logo.png" alt="Two vs. Wald Logo">
+        SNEPI
+      </a>
+      <a href="#top">Start</a>
+      <a href="#spiel">Spiel</a>
+      <a href="#karten">Karten</a>
+      <a href="#download">Server &amp; Download</a>
+      <a href="https://snepi.de" target="_blank" rel="noreferrer">snepi.de ↗</a>
+    </nav>
+  </header>
+
+  <main id="top">
+    <!-- ================= HERO BEREICH ================= -->
+    <div class="wrap hero">
+      <div>
+        <div class="kicker">Ein Spiel von SNEPI</div>
+        <h1>TWO <small style="font-size: 0.45em;">VS.</small><br><span>WALD</span></h1>
+        <p class="sub">Ein Lagerfeuer. Zwei Teams. Ein Wald.<br>Und du weißt nicht, wer noch da ist …</p>
+        <div class="actions">
+          <a class="btn primary" href="#spiel">Spiel entdecken</a>
+          <a class="btn" href="#karten">Karten ansehen</a>
+        </div>
+      </div>
+      <div class="hero-art">
+        <img class="hero-artwork" src="logo.png" alt="Two vs. Wald Logo">
+      </div>
+    </div>
+
+    <!-- ================= DAS SPIEL ================= -->
+    <section id="spiel">
+      <div class="wrap overview">
+        <div>
+          <div class="kicker">Das Spiel</div>
+          <h3>Zwei Teams. Ein Ziel.</h3>
+          <p>
+            Dein Zug nach Hause wurde durch einen mysteriösen Angriff aufgehalten. 
+            Alle wurden zurück in die Stadt evakuiert – du und deine Freunde habt euch aber im Wald verirrt. 
+            Ihr schlagt ein Lagerfeuer auf und merkt anhand gruseliger Geräusche: Ihr seid nicht allein.
+          </p>
+        </div>
+        <div class="facts">
+          <div class="fact">
+            <b>Spieler</b>
+            <span>4 Personen, aufgeteilt in zwei Teams: Verlorene &amp; Schatten</span>
+          </div>
+          <div class="fact">
+            <b>Materialien</b>
+            <span>Spielkarten (2 Decks), optional Würfel</span>
+          </div>
+          <div class="fact">
+            <b>Spielstil</b>
+            <span>Strategie, Glück, Teamplay und Survival</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= REGELN & ANLEITUNG ================= -->
+    <section>
+      <div class="wrap">
+        <div class="section-head">
+          <div>
+            <div class="kicker">So funktioniert’s</div>
+            <h2>Spielanleitung</h2>
+          </div>
+        </div>
+        <div class="rules">
+          <ol class="steps">
+            <li><span class="num">1</span><span>Vor dem Spiel wird gewürfelt. Das Team mit der höchsten Gesamtsumme beginnt. Im Team startet die Person mit dem höchsten Wurf.</span></li>
+            <li><span class="num">2</span><span>Die Teams wechseln sich nach jedem Zug ab – innerhalb des Teams wechseln auch die Spieler.</span></li>
+            <li><span class="num">3</span><span>Zu Beginn eines Zuges zieht der aktive Spieler eine Karte und legt sie auf das Lagerfeuer. Erst dann ist der Zug beendet.</span></li>
+            <li><span class="num">4</span><span>Wird eine Spezialkarte gezogen, muss sie gelegt werden.</span></li>
+            <li><span class="num">5</span><span>Der Punktestand des Lagerfeuers startet bei <b>25</b>.</span></li>
+            <li><span class="num">6</span><span><b>Verlorene</b> gewinnen bei 50 Punkten. <b>Schatten</b> gewinnen, wenn der Stand auf 0 fällt.</span></li>
+          </ol>
+          <div class="special">
+            <div class="special-row">
+              <img 
+                class="mini-card mini-card-img" 
+                src="stock.png" 
+                alt="Stock Karte" 
+                onclick="openModalByName('STOCK')" 
+                style="cursor: pointer;" 
+                title="Karte [Stock] vergrößern"
+              >
+              <div>
+                <b>[Stock]</b>
+                <p>Fügt x Punkte zum Lagerfeuer hinzu.</p>
+              </div>
+            </div>
+            <div class="special-row">
+              <div class="art-slot mini-card">Artwork</div>
+              <div>
+                <b>[Wind]</b>
+                <p>Zieht x Punkte vom Lagerfeuer ab.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= KARTENGALERIE ================= -->
+    <section id="karten">
+      <div class="wrap">
+        <div class="section-head">
+          <div>
+            <div class="kicker">Kartengalerie</div>
+            <h2>Die Karten</h2>
+            <p>Hier könnt ihr eure eigenen Karten-Artworks einsetzen.</p>
+          </div>
+        </div>
+        <div class="cards" id="cardGrid"></div>
+      </div>
+    </section>
+
+    <!-- ================= SERVER & DOWNLOADS ================= -->
+    <section id="download">
+      <div class="wrap">
+        <div class="section-head">
+          <div>
+            <div class="kicker">Mitnehmen in den Wald</div>
+            <h2>Server &amp; Downloads</h2>
+            <p>Verbinde dich mit der Community oder lade Spielmaterialien herunter.</p>
+          </div>
+        </div>
+
+        <div class="downloads">
+          <!-- Minecraft Server Card -->
+          <div class="download download-mc">
+            <div class="mc-icon-wrap" aria-hidden="true">
+              <svg viewBox="0 0 48 48" width="46" height="46" fill="none" xmlns="http://www.w3.org/2000/svg" aria-label="Minecraft Grasblock">
+                <!-- Oberseite (Gras) -->
+                <polygon points="24,5 43,15 24,25 5,15" fill="#58a833" />
+                <polygon points="24,5 33,10 24,15 15,10" fill="#65bd3b" opacity="0.6" />
+                <!-- Linke Seite (Erde + Graskante) -->
+                <polygon points="5,15 24,25 24,43 5,33" fill="#543722" />
+                <rect x="10" y="27" width="2" height="2" fill="#3c2617" opacity="0.7" />
+                <rect x="17" y="32" width="2.5" height="2" fill="#714b30" opacity="0.8" />
+                <rect x="8" y="22" width="2" height="2" fill="#714b30" opacity="0.6" />
+                <polygon points="5,15 24,25 24,30 20,28 20,25 15,26 15,29 10,26 10,23 5,20" fill="#437f26" />
+                <!-- Rechte Seite (Erde + Graskante) -->
+                <polygon points="24,25 43,15 43,33 24,43" fill="#6d472c" />
+                <rect x="29" y="32" width="2.5" height="2" fill="#4c311e" opacity="0.7" />
+                <rect x="36" y="26" width="2" height="2" fill="#8c5c38" opacity="0.8" />
+                <polygon points="24,25 43,15 43,20 38,22 38,25 33,23 33,21 28,24 28,29 24,30" fill="#51942d" />
+              </svg>
+            </div>
+            <div class="mc-content">
+              <span class="mc-badge">
+                <span class="mc-pulse">
+                  <span class="mc-ping"></span>
+                  <span class="mc-dot"></span>
+                </span>
+                Online Server
+              </span>
+              <h3>Minecraft Server</h3>
+              <p>Tritt unserem Community-Server bei &amp; überlebe im Wald!</p>
+              <div class="mc-actions">
+                <button class="mc-ip-copy" onclick="copyServerIp(this)" type="button" title="Server-IP in die Zwischenablage kopieren">
+                  <span id="mcIpDisplay">mc.snepi.de</span>
+                  <span class="mc-ip-tag" id="mcCopyTag">
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                      <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                      <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                    </svg>
+                    <span>Kopieren</span>
+                  </span>
+                </button>
+                <a class="btn primary mc-btn" id="mcServerLink" href="https://laby.net/de/servers/mc.snepi.de" target="_blank" rel="noreferrer">
+                  Server Info ↗
+                </a>
+              </div>
+            </div>
+          </div>
+
+          <!-- PDF Download Card -->
+          <div class="download">
+            <div class="slot-icon" style="display: grid; place-items: center; background: #080e14; border: 1px solid #232d3b; border-radius: var(--radius-sm);">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#68778d" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                <polyline points="14 2 14 8 20 8"></polyline>
+                <line x1="16" y1="13" x2="8" y2="13"></line>
+                <line x1="16" y1="17" x2="8" y2="17"></line>
+              </svg>
+            </div>
+            <div>
+              <h3>Karten zum Ausdrucken</h3>
+              <p>Platzhalter für euer Karten-PDF.</p>
+            </div>
+            <span class="btn" style="opacity: 0.55; cursor: default;">Bald verfügbar</span>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- ================= FOOTER ================= -->
+  <footer class="wrap">
+    <span><b style="color: #e2e8f0; letter-spacing: 2px;">SNEPI</b> &nbsp; Spiele. Plugins. Ideen.</span>
+    <span><a href="https://snepi.de" target="_blank" rel="noreferrer">snepi.de ↗</a> &nbsp; · &nbsp; Two vs. Wald</span>
+  </footer>
+
+  <!-- ================= KARTEN MODAL ================= -->
+  <div class="modal" id="modal" role="dialog" aria-modal="true" aria-label="Kartenansicht">
+    <div class="modal-box">
+      <button class="close" aria-label="Schließen" onclick="closeModal()">×</button>
+      <div id="modalArt">
+        <div class="art-slot card-art">Platzhalter für Karten-Artwork</div>
+      </div>
+      <h3 id="modalTitle">Karte</h3>
+      <p id="modalInfo" style="color: var(--muted);">Kartendetails</p>
+      <button class="btn" onclick="closeModal()">Schließen</button>
+    </div>
+  </div>
+
+  <!-- ================= JAVASCRIPT & KONFIGURATION ================= -->
+  <script>
+    /**
+     * CONFIG: Hier können Server-IP, Links und alle Karten einfach angepasst oder erweitert werden!
+     */
+    const CONFIG = {
+      serverIp: 'mc.snepi.de',
+      serverInfoUrl: 'https://laby.net/de/servers/mc.snepi.de',
+      
+      // Kartenliste: Beliebig neue Karten hinzufügen oder 'image' eintragen
+      cards: [
+        {
+          name: 'STOCK',
+          title: 'Stock',
+          value: '+x',
+          info: 'Fügt x Punkte zum Lagerfeuer hinzu.',
+          image: 'stock.png'
+        },
+        {
+          name: 'WIND',
+          title: 'Wind',
+          value: '−x',
+          info: 'Zieht x Punkte vom Lagerfeuer ab.',
+          image: '' // z. B. 'wind.png' sobald vorhanden
+        },
+        {
+          name: 'KARTE 03',
+          title: 'Weitere Karte',
+          value: '—',
+          info: 'Platzhalter für Kartentext.',
+          image: ''
+        },
+        {
+          name: 'KARTE 04',
+          title: 'Weitere Karte',
+          value: '—',
+          info: 'Platzhalter für Kartentext.',
+          image: ''
+        },
+        {
+          name: 'KARTE 05',
+          title: 'Weitere Karte',
+          value: '—',
+          info: 'Platzhalter für Kartentext.',
+          image: ''
+        },
+        {
+          name: 'KARTE 06',
+          title: 'Weitere Karte',
+          value: '—',
+          info: 'Platzhalter für Kartentext.',
+          image: ''
+        }
+      ]
+    };
+
+    // UI-Elemente
+    const grid = document.getElementById('cardGrid');
+    const modal = document.getElementById('modal');
+    const modalTitle = document.getElementById('modalTitle');
+    const modalInfo = document.getElementById('modalInfo');
+    const modalArt = document.getElementById('modalArt');
+
+    /**
+     * Rendert alle Karten im Kartengitter
+     */
+    function renderCards() {
+      grid.innerHTML = '';
+      CONFIG.cards.forEach((card, index) => {
+        const btn = document.createElement('button');
+        btn.className = 'card';
+        btn.setAttribute('aria-label', `Karte ${card.title} ansehen`);
+
+        const artHtml = card.image
+          ? `<img class="card-art card-artwork" src="${card.image}" alt="${card.title}">`
+          : `<div class="art-slot card-art">Artwork ${String(index + 1).padStart(2, '0')}</div>`;
+
+        btn.innerHTML = `
+          ${artHtml}
+          <div class="card-name">${card.name}</div>
+          <div class="value">${card.value}</div>
+        `;
+
+        btn.onclick = () => openModal(index);
+        grid.appendChild(btn);
+      });
+    }
+
+    /**
+     * Öffnet das Modal mit der entsprechenden Karte anhand des Index
+     */
+    function openModal(index) {
+      const card = CONFIG.cards[index];
+      if (!card) return;
+
+      modalTitle.textContent = card.title;
+      modalInfo.textContent = card.info;
+
+      if (card.image) {
+        modalArt.innerHTML = `<img class="modal-art-img" src="${card.image}" alt="${card.title}">`;
+      } else {
+        modalArt.innerHTML = `<div class="art-slot card-art" style="width: min(260px, 100%); margin: 0 auto 15px; aspect-ratio: 3/4;">Artwork ${String(index + 1).padStart(2, '0')}</div>`;
+      }
+
+      modal.classList.add('open');
+    }
+
+    /**
+     * Öffnet das Modal anhand des Kartennamens (z. B. 'STOCK')
+     */
+    function openModalByName(cardName) {
+      const index = CONFIG.cards.findIndex(c => c.name.toUpperCase() === cardName.toUpperCase());
+      if (index !== -1) {
+        openModal(index);
+      }
+    }
+
+    /**
+     * Schließt das Modal
+     */
+    function closeModal() {
+      modal.classList.remove('open');
+    }
+
+    /**
+     * Kopiert die Server-IP in die Zwischenablage mit visuellem Feedback
+     */
+    function copyServerIp(btn) {
+      const ip = CONFIG.serverIp;
+
+      const showFeedback = () => {
+        const tag = btn.querySelector('#mcCopyTag');
+        if (!tag) return;
+        const previousHtml = tag.innerHTML;
+        tag.innerHTML = '<span style="color: var(--mc-green); font-weight: 700;">✓ Kopiert!</span>';
+        btn.classList.add('copied');
+
+        setTimeout(() => {
+          tag.innerHTML = previousHtml;
+          btn.classList.remove('copied');
+        }, 2200);
+      };
+
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(ip).then(showFeedback).catch(() => {
+          copyFallback(ip);
+          showFeedback();
+        });
+      } else {
+        copyFallback(ip);
+        showFeedback();
+      }
+    }
+
+    /**
+     * Fallback für ältere Browser / ungesicherte Kontexte
+     */
+    function copyFallback(text) {
+      const textarea = document.createElement('textarea');
+      textarea.value = text;
+      textarea.style.position = 'fixed';
+      textarea.style.opacity = '0';
+      document.body.appendChild(textarea);
+      textarea.select();
+      try {
+        document.execCommand('copy');
+      } catch (e) {
+        console.error('Kopieren fehlgeschlagen:', e);
+      }
+      document.body.removeChild(textarea);
+    }
+
+    // Event Listener für Modal-Schließen (Klick außerhalb oder Esc-Taste)
+    modal.addEventListener('click', (e) => {
+      if (e.target.id === 'modal') closeModal();
+    });
+
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') closeModal();
+    });
+
+    // Initialisierung beim Laden der Seite
+    document.addEventListener('DOMContentLoaded', () => {
+      // Server-IP & Link aus CONFIG setzen
+      const ipDisplay = document.getElementById('mcIpDisplay');
+      if (ipDisplay) ipDisplay.textContent = CONFIG.serverIp;
+
+      const serverLink = document.getElementById('mcServerLink');
+      if (serverLink) serverLink.href = CONFIG.serverInfoUrl;
+
+      // Karten rendern
+      renderCards();
+    });
+
+    // Sofort ausführen falls DOM schon geladen
+    if (document.readyState !== 'loading') {
+      renderCards();
+    }
+  </script>
+</body>
+</html>
